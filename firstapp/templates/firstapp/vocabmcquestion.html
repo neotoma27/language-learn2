@@ -1,0 +1,17 @@
+<div>{{ user.knowledge_points }} KP</div>
+<div>{{ user.energy_fruits }} Energy Fruits</div>
+
+{% if feedback_message %}<p>{{ feedback_message }}</p>{% endif %}
+
+<h1>Which of these choices means "{{ question.first_language_word }}"?</h1>
+
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+<form action="{% url 'firstapp:answerquestion' question.id %}" method="post">
+{% csrf_token %}
+{% for choice in question.choice_set.all %}
+    <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.word_choice }}">
+    <label for="choice{{ forloop.counter }}">{{ choice.word_choice }}</label><br>
+{% endfor %}
+<input type="submit" value="Submit Answer">
+</form>
